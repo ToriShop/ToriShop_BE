@@ -3,6 +3,7 @@ package com.torishop.product.controller;
 import com.torishop.product.domain.ProductEntity;
 import com.torishop.product.dto.CreateProductRequest;
 import com.torishop.product.dto.Product;
+import com.torishop.product.dto.UpdateProductRequest;
 import com.torishop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,16 @@ public class ProductController {
     public ResponseEntity<?> createOne(@RequestBody CreateProductRequest request) {
         productService.save(request);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<?> updateOne(@RequestBody UpdateProductRequest request) {
+        try {
+            productService.modify(request);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
