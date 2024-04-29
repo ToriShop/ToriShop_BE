@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +26,13 @@ public class ProductController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAll() {
+        List<Product> productList = productService.findAll();
+
+        return ResponseEntity.ok(productList);
     }
 
     @PostMapping("/product")

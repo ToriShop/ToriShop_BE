@@ -7,12 +7,12 @@ import com.torishop.product.dto.Product;
 import com.torishop.product.dto.UpdateProductRequest;
 import com.torishop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +24,15 @@ public class ProductServiceImpl implements ProductService {
                 () -> new NoSuchElementException("Product doesn't exist " + productId)
         );
         return Product.toProduct(entity);
+    }
+
+    public List<Product> findAll() {
+        List<ProductEntity> entityList = repository.findAll();
+        List<Product> productList = entityList.stream().map(
+                entity -> Product.toProduct(entity)
+        ).collect(Collectors.toList());
+
+        return productList;
     }
 
     public void save(CreateProductRequest request) {
