@@ -10,7 +10,7 @@ assignees: ''
 ## 📌 Description
 
 ## ✅ To-Do
-- [] task1
-- [] task2
+- [ ] task1
+- [ ] task2
 
 ## ETC
