@@ -4,6 +4,7 @@ import com.torishop.product.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -42,16 +43,10 @@ public class ProductEntity {
     private String image;
 
     @Column(name = "create_date")
-    @NonNull
+    @CreationTimestamp
     private LocalDate createDate;
 
     @Column(name = "update_date")
-    @NonNull
+    @CreationTimestamp
     private LocalDate updateDate;
-
-    @PrePersist
-    private void prePersist() {
-        this.createDate = LocalDate.now();
-        this.updateDate = LocalDate.now();
-    }
 }
