@@ -1,16 +1,19 @@
 ---
 name: "✅ FEATURE"
 about: Feature 작업 사항을 입력해주세요.
-title: Title
-labels: user
+title: "[FEATURE] "
+labels: ''
 assignees: ''
 
 ---
 
 ## 📌 Description
 
-## ✅ To-Do
-- [ ] task1
-- [ ] task2
+## ✅ API
+|requirement|method|url|
+|------|---|---|
+||||
+||||
+||||
 
 ## ETC
