@@ -46,4 +46,12 @@ public class ProductServiceImpl implements ProductService {
 
         repository.save(entity);
     }
+
+    public void remove(Integer productId) {
+        ProductEntity entity = repository.findById(productId).orElseThrow(
+                () -> new NoSuchElementException("Product doesn't exist " + productId)
+        );
+
+        repository.delete(entity);
+    }
 }

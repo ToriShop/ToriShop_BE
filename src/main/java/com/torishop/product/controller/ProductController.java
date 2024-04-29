@@ -1,6 +1,5 @@
 package com.torishop.product.controller;
 
-import com.torishop.product.domain.ProductEntity;
 import com.torishop.product.dto.CreateProductRequest;
 import com.torishop.product.dto.Product;
 import com.torishop.product.dto.UpdateProductRequest;
@@ -38,6 +37,17 @@ public class ProductController {
     public ResponseEntity<?> updateOne(@RequestBody UpdateProductRequest request) {
         try {
             productService.modify(request);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<?> deleteOne(@PathVariable Integer id) {
+        try {
+            productService.remove(id);
 
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (NoSuchElementException e) {

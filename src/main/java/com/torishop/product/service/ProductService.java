@@ -14,4 +14,6 @@ public interface ProductService {
     void save(CreateProductRequest request);
 
     void modify(UpdateProductRequest request);
+
+    void remove(Integer productId);
 }
