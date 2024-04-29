@@ -1,7 +1,15 @@
 CREATE DATABASE tori;
 USE tori;
 
+DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS admin;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS _order;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS tier;
+DROP TABLE IF EXISTS product;
+
 CREATE TABLE admin(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(10) NOT NULL
@@ -31,7 +39,7 @@ CREATE TABLE user(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
-    role VARCHAR(10) NOT NULL,
+    user_role VARCHAR(10) NOT NULL,
     admin_id INT,
     customer_id INT,
     FOREIGN KEY (admin_id) REFERENCES admin(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -57,7 +65,6 @@ CREATE TABLE cart(
     product_id INT,
     is_in_order BOOLEAN NOT NULL DEFAULT TRUE,
     quantity INT NOT NULL DEFAULT 1,
-    price INT NOT NULL,
     PRIMARY KEY (customer_id, product_id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -72,6 +79,7 @@ CREATE TABLE _order(
     recipient_name VARCHAR(10) NOT NULL,
     recipient_phone VARCHAR(15) NOT NULL,
     recipient_address VARCHAR(50) NOT NULL,
+    delivery_status VARCHAR(10) NOT NULL,
     order_date DATE NOT NULL DEFAULT (current_date),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -80,7 +88,6 @@ DROP TABLE IF EXISTS order_item;
 CREATE TABLE order_item(
 	order_id INT NOT NULL,
     product_id INT NOT NULL,
-    delivery_status VARCHAR(10) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     price INT NOT NULL,
     PRIMARY KEY (order_id, product_id),
