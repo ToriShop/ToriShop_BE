@@ -6,6 +6,7 @@ import com.torishop.product.dto.CreateProductRequest;
 import com.torishop.product.dto.Product;
 import com.torishop.product.dto.UpdateProductRequest;
 import com.torishop.product.service.ProductService;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,15 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
 
-    public Product findProductById(Integer productId) {
+    @Transactional(readOnly = true)
+    public Product find(Integer productId) {
         ProductEntity entity = repository.findById(productId).orElseThrow(
                 () -> new NoSuchElementException("Product doesn't exist " + productId)
         );
         return Product.toProduct(entity);
     }
 
+    @Transactional(readOnly = true)
     public List<Product> findAll() {
         List<ProductEntity> entityList = repository.findAll();
         List<Product> productList = entityList.stream().map(
@@ -40,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
         repository.save(entity);
     }
 
+    @Transactional
     public void modify(UpdateProductRequest request) {
         Integer productId = request.getId();
         ProductEntity entity = repository.findById(productId).orElseThrow(
@@ -52,8 +56,6 @@ public class ProductServiceImpl implements ProductService {
         entity.setDescription(request.getDescription());
         entity.setImage(request.getImage());
         entity.setUpdateDate(LocalDate.now());
-
-        repository.save(entity);
     }
 
     public void remove(Integer productId) {
