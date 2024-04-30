@@ -12,15 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.NoSuchElementException;
 import java.util.List;
 
+@RequestMapping("/product")
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getOne(@PathVariable Integer id) {
         try {
-            Product product = productService.findProductById(id);
+            Product product = productService.find(id);
 
             return ResponseEntity.ok(product);
         } catch (NoSuchElementException e) {
@@ -28,20 +29,20 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products")
+    @GetMapping()
     public ResponseEntity<List<Product>> getAll() {
         List<Product> productList = productService.findAll();
 
         return ResponseEntity.ok(productList);
     }
 
-    @PostMapping("/product")
+    @PostMapping()
     public ResponseEntity<?> createOne(@RequestBody CreateProductRequest request) {
         productService.save(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/product")
+    @PutMapping()
     public ResponseEntity<?> updateOne(@RequestBody UpdateProductRequest request) {
         try {
             productService.modify(request);
@@ -52,7 +53,7 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOne(@PathVariable Integer id) {
         try {
             productService.remove(id);
