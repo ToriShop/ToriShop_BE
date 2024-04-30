@@ -2,12 +2,14 @@ package com.torishop.user.domain;
 
 import com.torishop.admin.domain.AdminEntity;
 import com.torishop.customer.domain.CustomerEntity;
+import com.torishop.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "user")
@@ -15,6 +17,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +34,8 @@ public class UserEntity {
 
     @Column(name = "user_role", length = 10)
     @NotNull
-    @Enumerated
-    private String userRole;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     @JoinColumn(name = "admin_id")
     @OneToOne(optional = true)

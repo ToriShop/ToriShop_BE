@@ -1,6 +1,5 @@
-package com.torishop.user.dto;
+package com.torishop.customer.dto;
 
-import com.torishop.user.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,10 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+@AllArgsConstructor
+public class CreateCustomerRequest {
     private String username;
     private String password;
-    private UserRole role;
+    private String phoneNumber;
+    private String email;
+    private String address;
 }

@@ -1,5 +1,6 @@
-package com.torishop.user.dto;
+package com.torishop.admin.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,5 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserRequest {
+public class Admin {
+    private int id;
+    private String code;
 }
