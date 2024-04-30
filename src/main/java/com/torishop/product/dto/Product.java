@@ -19,7 +19,6 @@ public class Product {
     private Integer stock;
     private Category category;
     private String description;
-    @Value("{default.product.image.url}")
     private String image;
     private LocalDate createDate;
     private LocalDate updateDate;

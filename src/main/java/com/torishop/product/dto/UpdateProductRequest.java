@@ -16,6 +16,5 @@ public class UpdateProductRequest {
     private Integer stock;
     private Category category;
     private String description;
-    @Value("{default.product.image.url}")
     private String image;
 }

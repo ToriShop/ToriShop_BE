@@ -7,19 +7,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 @Data
+@Component
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateProductRequest {
     private String name;
     private Integer price;
     private Integer stock;
     private Category category;
     private String description;
-    @Value("{default.product.image.url}")
     private String image;
 
     public ProductEntity toEntity() {
