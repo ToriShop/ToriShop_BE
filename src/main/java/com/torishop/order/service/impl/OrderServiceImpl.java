@@ -1,5 +1,7 @@
 package com.torishop.order.service.impl;
 
+import com.torishop.customer.domain.CustomerEntity;
+import com.torishop.customer.domain.CustomerRepository;
 import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.domain.OrderRepository;
 import com.torishop.order.dto.CreateOrderRequest;
@@ -25,15 +27,17 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     @Transactional
     public void save(CreateOrderRequest request) {
-        OrderEntity orderEntity = request.toEntity();
-
-        // 주문 번호 할당
-        String orderNumber = UUID.randomUUID().toString();
-        orderEntity.setOrderNumber(orderNumber);
+        // 고객 ID 확인
+        Integer customerId = request.getCustomerId();
+        CustomerEntity customerEntity = customerRepository.findById(customerId).orElseThrow(
+                () -> new NoSuchElementException("Customer doesn't exist " + customerId)
+        );
+        OrderEntity orderEntity = request.toEntity(customerEntity);
 
         // 총 가격 계산
         Integer totalPrice = request.getOrderItems()
@@ -56,6 +60,10 @@ public class OrderServiceImpl implements OrderService {
             empId.setProductId(product);
             OrderItemEntity orderItemEntity = orderItem.toEntity(empId);
             orderItemRepository.save(orderItemEntity);
+
+            // product 재고 - 1
+            product.setStock(product.getStock() - 1);
+            productRepository.save(product);
         });
     }
 }

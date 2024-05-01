@@ -1,5 +1,6 @@
 package com.torishop.order.domain;
 
+import com.torishop.customer.domain.CustomerEntity;
 import com.torishop.order.enums.DeliveryStatus;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -12,7 +13,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "order")
+@Table(name = "_order")
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,9 +24,9 @@ public class OrderEntity {
     private Integer id;
 
     // TODO: CustomerEntity와 연결
-    @Column(name = "customer_id")
-    @NonNull
-    private Integer customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customerId;
 
     @Column(name = "order_number", length = 10)
     @NonNull

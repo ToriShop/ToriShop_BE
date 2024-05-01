@@ -20,6 +20,6 @@ public class OrderItemEmpId implements Serializable {
 
     // TODO: ProductEntity에 연결
     @ManyToOne
-    @Column(name = "product_id")
+    @JoinColumn(name = "product_id")
     private ProductEntity productId;
 }
