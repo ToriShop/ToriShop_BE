@@ -1,6 +1,7 @@
 package com.torishop.orderItem.domain;
 
 import com.torishop.order.domain.OrderEntity;
+import com.torishop.orderItem.dto.OrderItem;
 import com.torishop.product.domain.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,13 @@ public class OrderItemEntity {
     @Column(name = "price")
     @ColumnDefault("0")
     private Integer price;
+
+    public OrderItem toOrderItem() {
+        return OrderItem.builder()
+                .orderId(this.id.getOrderId().getId())
+                .productId(this.id.getProductId().getId())
+                .price(this.price)
+                .quantity(this.quantity)
+                .build();
+    }
 }
