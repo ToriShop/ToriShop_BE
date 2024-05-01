@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AdminConverter {
     public Admin entityToDto(AdminEntity adminEntity){
+        if(adminEntity==null) return null;
         return Admin.builder()
                 .id(adminEntity.getId())
                 .code(adminEntity.getCode())

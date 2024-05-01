@@ -13,6 +13,6 @@ public interface CustomerService {
     UserResponse createCustomer(CreateCustomerRequest request);
     User getCustomer(int id);
     List<User> getCustomers();
-    UserResponse updateCustomer(UpdateCustomerRequest request);
+    UserResponse updateCustomer(int id, UpdateCustomerRequest request);
     UserResponse deleteCustomer(int id);
 }

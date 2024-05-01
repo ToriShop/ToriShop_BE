@@ -48,8 +48,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public User getAdmin(int id) {
-        AdminEntity adminEntity = adminRepository.findById(id).get();
-        UserEntity userEntity = userRepository.findByAdminEntity(adminEntity);
+        UserEntity userEntity = userRepository.findByAdminEntityId(id);
         return UserConverter.entityToDto(userEntity);
     }
 

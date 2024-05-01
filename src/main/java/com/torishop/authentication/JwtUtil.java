@@ -30,10 +30,11 @@ public class JwtUtil {
     }
 
     //jwt 토큰 생성
-    public String createJwt(String username, List<String> roleList){
+    public String createJwt(String username, List<String> roleList, int acId){
         //claim: jwt payload에 저장되는 정보단위
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roleList);
+        claims.put("acId", acId);
 
         Instant now = Instant.now();
         return Jwts.builder()
@@ -73,4 +74,8 @@ public class JwtUtil {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
+    //JWT로부터 admin or customer Id 추출.
+    public int getAdminCustomerId(String jwtToken){
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody().get("acId",Integer.class);
+    }
 }
