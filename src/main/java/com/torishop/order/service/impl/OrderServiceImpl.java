@@ -5,6 +5,7 @@ import com.torishop.customer.domain.CustomerRepository;
 import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.domain.OrderRepository;
 import com.torishop.order.dto.CreateOrderRequest;
+import com.torishop.order.dto.Order;
 import com.torishop.order.service.OrderService;
 import com.torishop.orderItem.domain.OrderItemEmpId;
 import com.torishop.orderItem.domain.OrderItemEntity;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,4 +68,15 @@ public class OrderServiceImpl implements OrderService {
             productRepository.save(product);
         });
     }
+
+
+    public List<Order> findAll() {
+        List<OrderEntity> entities = orderRepository.findAll();
+        List<Order> orders = entities.stream().map(
+                orderEntity -> orderEntity.toOrder()
+        ).collect(Collectors.toList());
+
+        return orders;
+    }
+
 }

@@ -1,11 +1,12 @@
 package com.torishop.order.domain;
 
+import com.torishop.order.dto.Order;
 import com.torishop.customer.domain.CustomerEntity;
 import com.torishop.order.enums.DeliveryStatus;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.aspectj.weaver.ast.Or;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -55,4 +56,18 @@ public class OrderEntity {
     @Column(name = "order_date")
     @CreationTimestamp
     private LocalDate orderDate;
+
+    public Order toOrder() {
+        return Order.builder()
+                .id(this.id)
+                .customerId(this.customerId.getId())
+                .orderNumber(this.orderNumber)
+                .totalPrice(this.totalPrice)
+                .recipientName(this.recipientName)
+                .recipientPhone(this.recipientPhone)
+                .recipientAddress(this.recipientAddress)
+                .deliveryStatus(this.deliveryStatus)
+                .orderDate(this.orderDate)
+                .build();
+    }
 }
