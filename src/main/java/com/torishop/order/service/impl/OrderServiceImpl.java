@@ -6,6 +6,7 @@ import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.domain.OrderRepository;
 import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
+import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
 import com.torishop.orderItem.domain.OrderItemEmpId;
 import com.torishop.orderItem.domain.OrderItemEntity;
@@ -13,9 +14,9 @@ import com.torishop.orderItem.domain.OrderItemRepository;
 import com.torishop.orderItem.dto.OrderItem;
 import com.torishop.product.domain.ProductEntity;
 import com.torishop.product.domain.ProductRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -70,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<Order> findAll() {
         List<OrderEntity> entities = orderRepository.findAll();
         List<Order> orders = entities.stream().map(
@@ -79,11 +81,25 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Transactional(readOnly = true)
     public Order findOrderById(Integer id) {
         OrderEntity entity = orderRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Order doesn't exist " + id)
         );
 
         return entity.toOrder();
+    }
+
+    @Transactional
+    public void modify(UpdateOrderRequest request){
+        Integer orderId = request.getId();
+        OrderEntity entity = orderRepository.findById(orderId).orElseThrow(
+                () -> new NoSuchElementException("Order doesn't exist " + orderId)
+        );
+
+        entity.setRecipientName(request.getRecipientName());
+        entity.setRecipientPhone(request.getRecipientPhone());
+        entity.setRecipientAddress(request.getRecipientAddress());
+        entity.setDeliveryStatus(request.getDeliveryStatus());
     }
 }

@@ -2,6 +2,7 @@ package com.torishop.order.controller;
 
 import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
+import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
@@ -42,5 +43,16 @@ public class OrderController {
         orderService.save(request);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateOne(@RequestBody UpdateOrderRequest request) {
+        try {
+            orderService.modify(request);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
