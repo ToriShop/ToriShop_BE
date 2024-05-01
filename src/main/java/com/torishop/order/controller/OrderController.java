@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/order")
@@ -17,6 +18,17 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOne(@PathVariable Integer id) {
+        try {
+            Order order = orderService.findOrderById(id);
+
+            return ResponseEntity.ok(order);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<Order>> getAll() {

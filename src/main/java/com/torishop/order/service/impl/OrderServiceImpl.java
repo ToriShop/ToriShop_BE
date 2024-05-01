@@ -79,4 +79,11 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    public Order findOrderById(Integer id) {
+        OrderEntity entity = orderRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Order doesn't exist " + id)
+        );
+
+        return entity.toOrder();
+    }
 }
