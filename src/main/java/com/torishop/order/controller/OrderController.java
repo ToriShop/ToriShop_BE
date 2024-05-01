@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,16 @@ public class OrderController {
         List<Order> orders = orderService.findAll();
 
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<List<Order>> getAllByCustomerId(@PathVariable Integer id) {
+        try {
+           List<Order> orders = orderService.findOrdersByCustomerId(id);
+           return ResponseEntity.ok(orders);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping

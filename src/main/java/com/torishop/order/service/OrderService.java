@@ -17,6 +17,8 @@ public interface OrderService {
 
     Order findOrderById(Integer id);
 
+    List<Order> findOrdersByCustomerId(Integer customerId);
+
     void modify(UpdateOrderRequest request);
 
     void remove(Integer id);

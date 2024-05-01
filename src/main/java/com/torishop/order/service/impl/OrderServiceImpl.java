@@ -90,6 +90,19 @@ public class OrderServiceImpl implements OrderService {
         return entity.toOrder();
     }
 
+    @Transactional(readOnly = true)
+    public List<Order> findOrdersByCustomerId(Integer customerId){
+        CustomerEntity entity = customerRepository.findById(customerId).orElseThrow(
+                () -> new NoSuchElementException("Customer doesn't exist " + customerId)
+        );
+
+        List<Order> orders = orderRepository.findAllByCustomerId(entity).stream().map(
+                orderEntity -> orderEntity.toOrder()
+        ).collect(Collectors.toList());
+
+        return orders;
+    }
+
     @Transactional
     public void modify(UpdateOrderRequest request){
         Integer orderId = request.getId();

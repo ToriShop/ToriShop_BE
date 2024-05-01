@@ -17,5 +17,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Orde
     List<OrderItemEntity> findByOrderId(@Param("order_id") OrderEntity orderEntity);
 
     @Query("SELECT items FROM OrderItemEntity items WHERE items.id.productId = :product_id")
-    List<OrderItemEntity> findByProductId(@Param("product_id") ProductEntity id);
+    List<OrderItemEntity> findByProductId(@Param("product_id") ProductEntity productEntity);
 }
