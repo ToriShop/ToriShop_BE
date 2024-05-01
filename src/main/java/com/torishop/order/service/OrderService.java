@@ -18,4 +18,6 @@ public interface OrderService {
     Order findOrderById(Integer id);
 
     void modify(UpdateOrderRequest request);
+
+    void remove(Integer id);
 }

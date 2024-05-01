@@ -102,4 +102,13 @@ public class OrderServiceImpl implements OrderService {
         entity.setRecipientAddress(request.getRecipientAddress());
         entity.setDeliveryStatus(request.getDeliveryStatus());
     }
+
+    @Transactional
+    public void remove(Integer id){
+        OrderEntity entity = orderRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Order doesn't exist " + id)
+        );
+
+        orderRepository.delete(entity);
+    }
 }
