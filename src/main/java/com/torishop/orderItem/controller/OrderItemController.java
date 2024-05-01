@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/orderItem")
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
 
-    @GetMapping("/orders/{id}/orderItems")
+    @GetMapping("/order/{id}")
     public ResponseEntity<List<OrderItem>> getAllByOrderId(@PathVariable Integer id) {
         try {
             List<OrderItem> orderItems = orderItemService.findByOrderId(id);
@@ -31,7 +32,7 @@ public class OrderItemController {
         }
     }
 
-    @GetMapping("/products/{id}/orderItems")
+    @GetMapping("/product/{id}")
     public ResponseEntity<List<OrderItem>>  getAllByProductId(@PathVariable Integer id) {
         try {
             List<OrderItem> orderItems = orderItemService.findByProductId(id);
