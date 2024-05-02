@@ -11,11 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
-    private Integer orderId;
+public class CreateOrderItemRequest {
     private Integer productId;
     private Integer quantity;
-    // 프론트에서 넘겨진 값 기준으로 설정한다.
     private Integer price;
 
     public OrderItemEntity toEntity(OrderItemEmpId empId) {

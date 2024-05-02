@@ -2,13 +2,10 @@ package com.torishop.orderItem.domain;
 
 import com.torishop.order.domain.OrderEntity;
 import com.torishop.product.domain.ProductEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateCustomerRequest {
     private String username;
-    private String password;
     private String phoneNumber;
     private String email;
     private String address;

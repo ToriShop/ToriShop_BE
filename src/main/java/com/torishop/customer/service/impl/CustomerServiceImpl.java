@@ -9,10 +9,13 @@ import com.torishop.tier.domain.TierRepository;
 import com.torishop.user.UserConverter;
 import com.torishop.user.domain.UserEntity;
 import com.torishop.user.domain.UserRepository;
+import com.torishop.user.dto.GetUserResponse;
+import com.torishop.user.dto.UpdatePwRequest;
 import com.torishop.user.dto.User;
 import com.torishop.user.dto.UserResponse;
 import com.torishop.user.enums.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,16 +60,31 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public User getCustomer(int id) {
+    public GetUserResponse getCustomer(int id) {
         UserEntity user = userRepository.findByCustomerEntityId(id);
-        return UserConverter.entityToDto(user);
+        return UserConverter.entityToGet(user);
     }
 
     @Override
     @Transactional
-    public List<User> getCustomers() {
+    public List<GetUserResponse> getCustomers() {
         List<UserEntity> userEntities = userRepository.findByUserRole(UserRole.CUSTOMER);
-        return userEntities.stream().map(UserConverter::entityToDto).toList();
+        return userEntities.stream().map(UserConverter::entityToGet).toList();
+    }
+
+    @Override
+    @Transactional
+    public UserResponse updateCustomerPw(int id, UpdatePwRequest request) {
+        UserEntity user = userRepository.findByCustomerEntityId(id);
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        return UserResponse.builder()
+                .id(user.getId())
+                .build();
     }
 
     @Override
@@ -80,7 +98,6 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setAddress(request.getAddress());
 
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setCustomerEntity(customer);  //cascade 작동할 것 같긴 해.
 
         return UserResponse.builder()

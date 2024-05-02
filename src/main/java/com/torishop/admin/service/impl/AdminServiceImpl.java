@@ -7,6 +7,7 @@ import com.torishop.admin.service.AdminService;
 import com.torishop.user.UserConverter;
 import com.torishop.user.domain.UserEntity;
 import com.torishop.user.domain.UserRepository;
+import com.torishop.user.dto.GetUserResponse;
 import com.torishop.user.dto.User;
 import com.torishop.user.dto.UserResponse;
 import com.torishop.user.enums.UserRole;
@@ -47,15 +48,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public User getAdmin(int id) {
+    public GetUserResponse getAdmin(int id) {
         UserEntity userEntity = userRepository.findByAdminEntityId(id);
-        return UserConverter.entityToDto(userEntity);
+        return UserConverter.entityToGet(userEntity);
     }
 
     @Override
     @Transactional
-    public List<User> getAdmins() {
+    public List<GetUserResponse> getAdmins() {
         List<UserEntity> userEntities = userRepository.findByUserRole(UserRole.ADMIN);
-        return userEntities.stream().map(UserConverter::entityToDto).toList();
+        return userEntities.stream().map(UserConverter::entityToGet).toList();
     }
 }

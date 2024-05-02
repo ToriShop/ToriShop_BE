@@ -11,6 +11,7 @@ import com.torishop.order.service.OrderService;
 import com.torishop.orderItem.domain.OrderItemEmpId;
 import com.torishop.orderItem.domain.OrderItemEntity;
 import com.torishop.orderItem.domain.OrderItemRepository;
+import com.torishop.orderItem.dto.CreateOrderItemRequest;
 import com.torishop.orderItem.dto.OrderItem;
 import com.torishop.product.domain.ProductEntity;
 import com.torishop.product.domain.ProductRepository;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,9 +34,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void save(CreateOrderRequest request) {
+    public void save(Integer customerId, CreateOrderRequest request) {
         // 고객 ID 확인
-        Integer customerId = request.getCustomerId();
         CustomerEntity customerEntity = customerRepository.findById(customerId).orElseThrow(
                 () -> new NoSuchElementException("Customer doesn't exist " + customerId)
         );
@@ -45,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
         // 총 가격 계산
         Integer totalPrice = request.getOrderItems()
                 .stream()
-                .map(OrderItem::getPrice)
+                .map(CreateOrderItemRequest::getPrice)
                 .reduce(0, Integer::sum);
         orderEntity.setTotalPrice(totalPrice);
         OrderEntity order = orderRepository.save(orderEntity);
@@ -54,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         empId.setOrderId(order);
 
         // orderItem 정보 저장
-        List<OrderItem> orderItemList = request.getOrderItems();
+        List<CreateOrderItemRequest> orderItemList = request.getOrderItems();
         orderItemList.forEach(orderItem -> {
             Integer productId = orderItem.getProductId();
             ProductEntity product = productRepository.findById(productId).orElseThrow(
