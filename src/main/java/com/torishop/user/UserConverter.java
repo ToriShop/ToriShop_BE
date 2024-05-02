@@ -1,5 +1,7 @@
 package com.torishop.user;
 
+import com.torishop.admin.AdminConverter;
+import com.torishop.customer.CustomerConverter;
 import com.torishop.user.domain.UserEntity;
 import com.torishop.user.dto.User;
 import lombok.experimental.UtilityClass;
@@ -12,9 +14,8 @@ public class UserConverter {
                 .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
                 .userRole(userEntity.getUserRole())
-                .adminEntity(userEntity.getAdminEntity())
-                .customerEntity(userEntity.getCustomerEntity())
+                .admin(AdminConverter.entityToDto(userEntity.getAdminEntity()))
+                .customer(CustomerConverter.entityToDto(userEntity.getCustomerEntity()))
                 .build();
     }
-
 }

@@ -1,7 +1,9 @@
 package com.torishop.user.dto;
 
 import com.torishop.admin.domain.AdminEntity;
+import com.torishop.admin.dto.Admin;
 import com.torishop.customer.domain.CustomerEntity;
+import com.torishop.customer.dto.Customer;
 import com.torishop.user.domain.UserEntity;
 import com.torishop.user.enums.UserRole;
 import lombok.AllArgsConstructor;
@@ -18,17 +20,6 @@ public class User {
     private String username;
     private String password;
     private UserRole userRole;
-    private AdminEntity adminEntity;
-    private CustomerEntity customerEntity;
-
-    public UserEntity toEntity(){
-        return UserEntity.builder()
-                .id(this.id)
-                .username(this.username)
-                .password(this.password)
-                .userRole(this.userRole)
-                .adminEntity(this.adminEntity)
-                .customerEntity(this.customerEntity)
-                .build();
-    }
+    private Admin admin;
+    private Customer customer;
 }
