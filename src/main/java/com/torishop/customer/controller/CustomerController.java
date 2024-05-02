@@ -3,6 +3,8 @@ package com.torishop.customer.controller;
 import com.torishop.customer.dto.CreateCustomerRequest;
 import com.torishop.customer.dto.UpdateCustomerRequest;
 import com.torishop.customer.service.CustomerService;
+import com.torishop.user.dto.GetUserResponse;
+import com.torishop.user.dto.UpdatePwRequest;
 import com.torishop.user.dto.User;
 import com.torishop.user.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,16 +26,23 @@ public class CustomerController {
     }
 
     @GetMapping("/my")
-    ResponseEntity<User> getCustomer(HttpServletRequest httpRequest){
+    ResponseEntity<GetUserResponse> getCustomer(HttpServletRequest httpRequest){
         int id = (int) httpRequest.getAttribute("acId");
-        User user = customerService.getCustomer(id);
-        return ResponseEntity.ok(user);
+        GetUserResponse getUserResponse = customerService.getCustomer(id);
+        return ResponseEntity.ok(getUserResponse);
     }
 
     @GetMapping
-    ResponseEntity<List<User>> getCustomers(){
-        List<User> users = customerService.getCustomers();
-        return ResponseEntity.ok(users);
+    ResponseEntity<List<GetUserResponse>> getCustomers(){
+        List<GetUserResponse> getUserResponses = customerService.getCustomers();
+        return ResponseEntity.ok(getUserResponses);
+    }
+
+    @PutMapping("/pw")
+    ResponseEntity<UserResponse> updateCustomerPw(HttpServletRequest httpRequest, @RequestBody UpdatePwRequest request){
+        int id = (int) httpRequest.getAttribute("acId");
+        UserResponse userResponse = customerService.updateCustomerPw(id, request);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PutMapping

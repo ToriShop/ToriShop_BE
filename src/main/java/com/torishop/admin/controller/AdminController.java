@@ -2,6 +2,7 @@ package com.torishop.admin.controller;
 
 import com.torishop.admin.dto.CreateAdminRequest;
 import com.torishop.admin.service.AdminService;
+import com.torishop.user.dto.GetUserResponse;
 import com.torishop.user.dto.User;
 import com.torishop.user.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,16 +25,16 @@ public class AdminController {
     }
 
     @GetMapping("/my")
-    ResponseEntity<User> getAdmin(HttpServletRequest httpRequest){
+    ResponseEntity<GetUserResponse> getAdmin(HttpServletRequest httpRequest){
         int id = (int) httpRequest.getAttribute("acId");
-        User user = adminService.getAdmin(id);
-        return ResponseEntity.ok(user);
+        GetUserResponse getUserResponse = adminService.getAdmin(id);
+        return ResponseEntity.ok(getUserResponse);
     }
 
     @GetMapping
-    ResponseEntity<List<User>> getAdmins(){
-        List<User> users = adminService.getAdmins();
-        return ResponseEntity.ok(users);
+    ResponseEntity<List<GetUserResponse>> getAdmins(){
+        List<GetUserResponse> getUserResponses = adminService.getAdmins();
+        return ResponseEntity.ok(getUserResponses);
     }
 
 }
