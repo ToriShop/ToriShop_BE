@@ -4,6 +4,7 @@ import com.torishop.admin.dto.CreateAdminRequest;
 import com.torishop.admin.service.AdminService;
 import com.torishop.user.dto.User;
 import com.torishop.user.dto.UserResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,14 @@ public class AdminController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @GetMapping("/{id}")
-    ResponseEntity<User> getAdmin(@PathVariable("id") int id){
+    @GetMapping("/my")
+    ResponseEntity<User> getAdmin(HttpServletRequest httpRequest){
+        int id = (int) httpRequest.getAttribute("acId");
         User user = adminService.getAdmin(id);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping()
+    @GetMapping
     ResponseEntity<List<User>> getAdmins(){
         List<User> users = adminService.getAdmins();
         return ResponseEntity.ok(users);

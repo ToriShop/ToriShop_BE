@@ -20,8 +20,10 @@ public class JwtAuthFilter extends GenericFilter {
         if(Jwt != null && jwtUtil.validateJwt(Jwt)){
             //권한 정보가 담긴 토큰(UsernamePasswordAuthenticationToken)을 가져오고
             Authentication authentication = jwtUtil.getAuthFromJwt(Jwt);
-            //그 토큰 정보를 security context에 담아준다!!!!!!!!!!!!!!!!!!!
+            //그 토큰 정보를 security context 에 담아준다!!!!!!!!!!!!!!!!!!!
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            //admin, customer id 값을 request attribute 에 추가함.
+            request.setAttribute("acId", jwtUtil.getAdminCustomerId(Jwt));
         }
 
         //front에서 넘어온 ServletRequest, ServletResponse 객체를 그 다음 필터로 넘겨줌~~

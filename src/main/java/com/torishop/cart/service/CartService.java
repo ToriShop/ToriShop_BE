@@ -8,8 +8,8 @@ import com.torishop.cart.dto.UpdateCartRequest;
 import java.util.List;
 
 public interface CartService {
-    CartResponse createCart(CreateCartRequest request);
+    CartResponse createCart(int customerId, CreateCartRequest request);
     List<Cart> getCarts(int customerId);
-    CartResponse updateCart(UpdateCartRequest request);
+    CartResponse updateCart(int customerId, UpdateCartRequest request);
     CartResponse deleteCart(int customerId, int productId);
 }

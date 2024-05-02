@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     UserEntity findByUsername(String username);
     List<UserEntity> findByUserRole(UserRole userRole);
-    UserEntity findByAdminEntity(AdminEntity adminEntity);
-    UserEntity findByCustomerEntity(CustomerEntity customerEntity);
+    UserEntity findByAdminEntityId(int id);
+    UserEntity findByCustomerEntityId(int id);
 }

@@ -8,12 +8,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CustomerConverter {
     public Customer entityToDto(CustomerEntity customerEntity){
+        if(customerEntity==null) return null;
         return Customer.builder()
                 .id(customerEntity.getId())
                 .phoneNumber(customerEntity.getPhoneNumber())
                 .email(customerEntity.getEmail())
                 .address(customerEntity.getAddress())
                 .tier(TierConverter.entityToDto(customerEntity.getTierEntity()))
+                .joinDate(customerEntity.getJoinDate())
                 .build();
     }
 }

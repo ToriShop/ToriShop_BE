@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCartRequest {
-    private int customerId;
     private int productId;
     private boolean isInOrder;
     private int quantity;

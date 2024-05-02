@@ -58,8 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public User getCustomer(int id) {
-        CustomerEntity customer = customerRepository.findById(id).get();
-        UserEntity user = userRepository.findByCustomerEntity(customer);
+        UserEntity user = userRepository.findByCustomerEntityId(id);
         return UserConverter.entityToDto(user);
     }
 
@@ -72,18 +71,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public UserResponse updateCustomer(UpdateCustomerRequest request) {
-        int id = request.getId();
+    public UserResponse updateCustomer(int id, UpdateCustomerRequest request) {
         CustomerEntity customer = customerRepository.findById(id).get();
-        UserEntity user = userRepository.findByCustomerEntity(customer);
+        UserEntity user = userRepository.findByCustomerEntityId(id);
 
         customer.setPhoneNumber(request.getPhoneNumber());
         customer.setEmail(request.getEmail());
         customer.setAddress(request.getAddress());
 
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        user.setCustomerEntity(customer);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setCustomerEntity(customer);  //cascade 작동할 것 같긴 해.
 
         return UserResponse.builder()
                 .id(user.getId())
@@ -93,10 +91,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public UserResponse deleteCustomer(int id) {
-        CustomerEntity customer = customerRepository.findById(id).get();
-        UserEntity user = userRepository.findByCustomerEntity(customer);
-
+        UserEntity user = userRepository.findByCustomerEntityId(id);
         customerRepository.deleteById(id);
+
         return UserResponse.builder()
                 .id(user.getId())
                 .build();

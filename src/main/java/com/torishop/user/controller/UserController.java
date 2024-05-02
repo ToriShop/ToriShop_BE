@@ -21,7 +21,8 @@ public class UserController {
     @PostMapping("/login")
     ResponseEntity<String> loginUser(@RequestBody LoginRequest request) throws BadCredentialsException {
         User user = userService.loginUser(request);
-        return ResponseEntity.ok(jwtUtil.createJwt(user.getUsername(), Arrays.asList(user.getUserRole().getValue())));
+        int acId = (user.getAdmin() != null) ? user.getAdmin().getId() : user.getCustomer().getId();
+        return ResponseEntity.ok(jwtUtil.createJwt(user.getUsername(), Arrays.asList(user.getUserRole().getValue()), acId));
     }
 
 }

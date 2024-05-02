@@ -29,8 +29,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartResponse createCart(CreateCartRequest request) {
-        CartId cartId = makeCartId(request.getCustomerId(), request.getProductId());
+    public CartResponse createCart(int customerId, CreateCartRequest request) {
+        CartId cartId = makeCartId(customerId, request.getProductId());
 
         CartEntity cart = CartEntity.builder()
                 .cartId(cartId)
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
 
         return CartResponse.builder()
-                .customerId(request.getCustomerId())
+                .customerId(customerId)
                 .productId(request.getProductId())
                 .build();
     }
@@ -54,15 +54,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartResponse updateCart(UpdateCartRequest request) {
-        CartId cartId = makeCartId(request.getCustomerId(), request.getProductId());
+    public CartResponse updateCart(int customerId, UpdateCartRequest request) {
+        CartId cartId = makeCartId(customerId, request.getProductId());
         CartEntity cartEntity = cartRepository.findById(cartId).get();
 
         cartEntity.setInOrder(request.isInOrder());
         cartEntity.setQuantity(request.getQuantity());
 
         return CartResponse.builder()
-                .customerId(request.getCustomerId())
+                .customerId(customerId)
                 .productId(request.getProductId())
                 .build();
     }
