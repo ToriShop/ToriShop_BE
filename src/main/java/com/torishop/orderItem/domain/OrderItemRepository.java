@@ -1,7 +1,6 @@
 package com.torishop.orderItem.domain;
 
 import com.torishop.order.domain.OrderEntity;
-import com.torishop.orderItem.dto.OrderItem;
 import com.torishop.product.domain.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

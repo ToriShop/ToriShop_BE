@@ -3,6 +3,7 @@ package com.torishop.order.dto;
 import com.torishop.customer.domain.CustomerEntity;
 import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.enums.DeliveryStatus;
+import com.torishop.orderItem.dto.CreateOrderItemRequest;
 import com.torishop.orderItem.dto.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,11 +18,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderRequest {
-    private Integer customerId;
     private String recipientName;
     private String recipientPhone;
     private String recipientAddress;
-    private List<OrderItem> orderItems;
+    private List<CreateOrderItemRequest> orderItems;
 
     public OrderEntity toEntity(CustomerEntity entity){
         SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmm");

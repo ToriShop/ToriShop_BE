@@ -4,6 +4,7 @@ import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
 import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
@@ -39,19 +40,21 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/customer/{id}")
-    public ResponseEntity<List<Order>> getAllByCustomerId(@PathVariable Integer id) {
+    @GetMapping("/customer")
+    public ResponseEntity<List<Order>> getAllByCustomerId(HttpServletRequest httpRequest) {
         try {
-           List<Order> orders = orderService.findOrdersByCustomerId(id);
-           return ResponseEntity.ok(orders);
+            int id = (int) httpRequest.getAttribute("acId");
+            List<Order> orders = orderService.findOrdersByCustomerId(id);
+            return ResponseEntity.ok(orders);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> createOne(@RequestBody CreateOrderRequest request) {
-        orderService.save(request);
+    public ResponseEntity<?> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
+        int id = (int) httpRequest.getAttribute("acId");
+        orderService.save(id, request);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
