@@ -12,7 +12,6 @@ import com.torishop.orderItem.domain.OrderItemEmpId;
 import com.torishop.orderItem.domain.OrderItemEntity;
 import com.torishop.orderItem.domain.OrderItemRepository;
 import com.torishop.orderItem.dto.CreateOrderItemRequest;
-import com.torishop.orderItem.dto.OrderItem;
 import com.torishop.product.domain.ProductEntity;
 import com.torishop.product.domain.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +35,12 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void save(Integer customerId, CreateOrderRequest request) {
         // 고객 ID 확인
-        CustomerEntity customerEntity = customerRepository.findById(customerId).orElseThrow(
-                () -> new NoSuchElementException("Customer doesn't exist " + customerId)
-        );
+        CustomerEntity customerEntity = null;
+        if(customerId != 0){
+            customerEntity = customerRepository.findById(customerId).orElseThrow(
+                    () -> new NoSuchElementException("Customer doesn't exist " + customerId)
+            );
+        }
         OrderEntity orderEntity = request.toEntity(customerEntity);
 
         // 총 가격 계산

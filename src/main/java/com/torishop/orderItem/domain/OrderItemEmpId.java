@@ -12,12 +12,10 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class OrderItemEmpId implements Serializable {
-    // TODO: OrderEntity에 연결
     @ManyToOne
     @JoinColumn(name = "order_id")
     private OrderEntity orderId;
 
-    // TODO: ProductEntity에 연결
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity productId;
