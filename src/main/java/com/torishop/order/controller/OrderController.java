@@ -2,6 +2,7 @@ package com.torishop.order.controller;
 
 import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
+import com.torishop.order.dto.OrderResponse;
 import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,14 +51,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
         int id = 0;
         if(httpRequest.getAttribute("acId") != null){
             id = (int) httpRequest.getAttribute("acId");
         }
-        orderService.save(id, request);
+        OrderResponse orderResponse = orderService.save(id, request);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.ok(orderResponse);
     }
 
     @PutMapping

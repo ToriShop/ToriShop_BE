@@ -6,6 +6,7 @@ import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.domain.OrderRepository;
 import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
+import com.torishop.order.dto.OrderResponse;
 import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
 import com.torishop.orderItem.domain.OrderItemEmpId;
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void save(Integer customerId, CreateOrderRequest request) {
+    public OrderResponse save(Integer customerId, CreateOrderRequest request) {
         // 고객 ID 확인
         CustomerEntity customerEntity = null;
         if(customerId != 0){
@@ -69,6 +70,10 @@ public class OrderServiceImpl implements OrderService {
             product.setStock(product.getStock() - 1);
             productRepository.save(product);
         });
+
+        return OrderResponse.builder()
+                .id(order.getId())
+                .build();
     }
 
 
