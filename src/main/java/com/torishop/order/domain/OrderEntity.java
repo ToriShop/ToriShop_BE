@@ -56,9 +56,8 @@ public class OrderEntity {
     private LocalDate orderDate;
 
     public Order toOrder() {
-        return Order.builder()
+        Order order =  Order.builder()
                 .id(this.id)
-                .customerId(this.customerId.getId())
                 .orderNumber(this.orderNumber)
                 .totalPrice(this.totalPrice)
                 .recipientName(this.recipientName)
@@ -67,5 +66,11 @@ public class OrderEntity {
                 .deliveryStatus(this.deliveryStatus)
                 .orderDate(this.orderDate)
                 .build();
+        if(this.customerId == null){
+            order.setCustomerId(null);
+        } else{
+            order.setCustomerId(this.customerId.getId());
+        }
+        return order;
     }
 }
