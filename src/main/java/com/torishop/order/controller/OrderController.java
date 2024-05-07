@@ -6,11 +6,9 @@ import com.torishop.order.dto.UpdateOrderRequest;
 import com.torishop.order.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -53,7 +51,10 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
-        int id = (int) httpRequest.getAttribute("acId");
+        int id = 0;
+        if(httpRequest.getAttribute("acId") != null){
+            id = (int) httpRequest.getAttribute("acId");
+        }
         orderService.save(id, request);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
