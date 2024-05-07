@@ -22,17 +22,4 @@ public class Product {
     private String image;
     private LocalDate createDate;
     private LocalDate updateDate;
-
-    public static Product toProduct(ProductEntity entity) {
-        return Product.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .price(entity.getPrice())
-                .stock(entity.getStock())
-                .category(entity.getCategory())
-                .description(entity.getDescription())
-                .image(entity.getImage())
-                .createDate(entity.getCreateDate())
-                .updateDate(entity.getUpdateDate()).build();
-    }
 }
