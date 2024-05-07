@@ -1,7 +1,9 @@
 package com.torishop.orderItem.dto;
 
+import com.torishop.order.dto.Order;
 import com.torishop.orderItem.domain.OrderItemEmpId;
 import com.torishop.orderItem.domain.OrderItemEntity;
+import com.torishop.product.dto.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItem {
-    private Integer orderId;
-    private Integer productId;
+    private Order orderId;
+    private Product productId;
     private Integer quantity;
     // 프론트에서 넘겨진 값 기준으로 설정한다.
     private Integer price;

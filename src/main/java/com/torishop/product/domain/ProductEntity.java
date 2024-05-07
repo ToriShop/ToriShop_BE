@@ -1,5 +1,6 @@
 package com.torishop.product.domain;
 
+import com.torishop.product.dto.Product;
 import com.torishop.product.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,4 +52,17 @@ public class ProductEntity {
     @Column(name = "update_date")
     @CreationTimestamp
     private LocalDate updateDate;
+
+    public Product toProduct() {
+        return Product.builder()
+                .id(this.id)
+                .name(this.name)
+                .price(this.price)
+                .stock(this.stock)
+                .category(this.category)
+                .description(this.description)
+                .image(this.image)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate).build();
+    }
 }

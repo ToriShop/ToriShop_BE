@@ -28,8 +28,8 @@ public class OrderItemEntity {
 
     public OrderItem toOrderItem() {
         return OrderItem.builder()
-                .orderId(this.id.getOrderId().getId())
-                .productId(this.id.getProductId().getId())
+                .orderId(this.id.getOrderId().toOrder())
+                .productId(this.id.getProductId().toProduct())
                 .price(this.price)
                 .quantity(this.quantity)
                 .build();

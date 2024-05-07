@@ -25,14 +25,14 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity entity = repository.findById(productId).orElseThrow(
                 () -> new NoSuchElementException("Product doesn't exist " + productId)
         );
-        return Product.toProduct(entity);
+        return entity.toProduct();
     }
 
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         List<ProductEntity> entityList = repository.findAll();
         List<Product> productList = entityList.stream().map(
-                entity -> Product.toProduct(entity)
+                entity -> entity.toProduct()
         ).collect(Collectors.toList());
 
         return productList;
