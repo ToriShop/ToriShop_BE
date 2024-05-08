@@ -79,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
         return OrderResponse.builder()
                 .id(order.getId())
+                .orderNumber(order.getOrderNumber())
                 .build();
     }
 
