@@ -56,14 +56,14 @@ public class ProductEntity {
 
     public Product toProduct() {
 
-        String image = new String(this.image);
-        Path imagePath = Paths.get(image);
-        Resource imageResource = null;
-        try {
-            imageResource = new UrlResource(imagePath.toUri());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+//        String image = new String(this.image);
+//        Path imagePath = Paths.get(image);
+//        Resource imageResource = null;
+//        try {
+//            imageResource = new UrlResource(imagePath.toUri());
+//        } catch (MalformedURLException e) {
+//            throw new RuntimeException(e);
+//        }
 
         Product product = Product.builder()
                 .id(this.id)
@@ -72,10 +72,13 @@ public class ProductEntity {
                 .stock(this.stock)
                 .category(this.category)
                 .description(this.description)
-                .image(new String(this.image))
                 .createDate(this.createDate)
                 .updateDate(this.updateDate)
                 .build();
+
+        if(this.image != null) {
+            setImage(this.image);
+        }
 
         return product;
     }
