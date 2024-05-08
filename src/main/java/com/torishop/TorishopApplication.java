@@ -18,10 +18,11 @@ public class TorishopApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000") // 허용할 원본
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("Content-Type", "Authorization", "AUTH-TOKEN")
-						.allowCredentials(true);
+						.allowCredentials(true) // 인증 쿠키를 사용해야 하는 경우 true로 설정
+						.exposedHeaders("Access-Control-Allow-Origin"); // 브라우저가 접근해야 할 응답 헤더
 			}
 		};
 	}

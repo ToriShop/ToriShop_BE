@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class CartController {
     }
 
     @GetMapping
-    ResponseEntity<List<Cart>> getCarts(HttpServletRequest httpRequest){
+    ResponseEntity<List<Cart>> getCarts(HttpServletRequest httpRequest) throws MalformedURLException {
         int customerId = (int) httpRequest.getAttribute("acId");
         List<Cart> carts = cartService.getCarts(customerId);
         return ResponseEntity.ok(carts);

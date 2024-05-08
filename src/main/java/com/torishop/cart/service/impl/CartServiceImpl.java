@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Service
@@ -47,7 +48,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public List<Cart> getCarts(int customerId) {
+    public List<Cart> getCarts(int customerId){
         List<CartEntity> cartEntities = cartRepository.findByCartIdCustomerEntityId(customerId);
         return cartEntities.stream().map(CartConverter::entityToDto).toList();
     }
