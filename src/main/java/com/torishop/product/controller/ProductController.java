@@ -3,12 +3,15 @@ package com.torishop.product.controller;
 import com.torishop.product.dto.CreateProductRequest;
 import com.torishop.product.dto.Product;
 import com.torishop.product.dto.UpdateProductRequest;
+import com.torishop.product.enums.Category;
 import com.torishop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.List;
 
@@ -37,18 +40,47 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createOne(@RequestBody CreateProductRequest request) {
+    public ResponseEntity<?> createOne( @RequestParam("name") String name,
+                                        @RequestParam("price") Integer price,
+                                        @RequestParam("stock") Integer stock,
+                                        @RequestParam("category") String category,
+                                        @RequestParam("description") String description,
+                                        @RequestParam("image") MultipartFile image) throws IOException {
+        CreateProductRequest request = CreateProductRequest.builder()
+                .name(name)
+                .price(price)
+                .stock(stock)
+                .category(Category.valueOf(category))
+                .description(description)
+                .image(image)
+                .build();
         productService.save(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateOne(@RequestBody UpdateProductRequest request) {
+    public ResponseEntity<?> updateOne(
+            @RequestParam("id") Integer id,
+            @RequestParam("name") String name,
+            @RequestParam("price") Integer price,
+            @RequestParam("stock") Integer stock,
+            @RequestParam("category") String category,
+            @RequestParam("description") String description,
+            @RequestParam("image") MultipartFile image) {
         try {
+            UpdateProductRequest request = UpdateProductRequest.builder()
+                    .id(id)
+                    .name(name)
+                    .price(price)
+                    .stock(stock)
+                    .category(Category.valueOf(category))
+                    .description(description)
+                    .image(image)
+                    .build();
             productService.modify(request);
 
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

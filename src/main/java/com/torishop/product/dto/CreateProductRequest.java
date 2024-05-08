@@ -8,7 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Data
@@ -22,16 +25,19 @@ public class CreateProductRequest {
     private Integer stock;
     private Category category;
     private String description;
-    private String image;
+    private MultipartFile image;
 
-    public ProductEntity toEntity() {
-        return ProductEntity.builder()
+    public ProductEntity toEntity() throws IOException {
+        ProductEntity productEntity = ProductEntity.builder()
                 .name(this.name)
                 .price(this.price)
                 .stock(this.stock)
                 .category(this.category)
                 .description(this.description)
-                .image(this.image)
                 .build();
+        if(this.image!=null && !this.image.isEmpty()){
+            productEntity.setImage(this.image.getBytes());
+        }
+        return productEntity;
     }
 }

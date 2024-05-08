@@ -1,11 +1,7 @@
 package com.torishop.order.dto;
 
-import com.torishop.customer.domain.CustomerEntity;
 import com.torishop.order.enums.DeliveryStatus;
-import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
