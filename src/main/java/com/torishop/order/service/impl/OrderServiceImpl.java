@@ -2,6 +2,7 @@ package com.torishop.order.service.impl;
 
 import com.torishop.customer.domain.CustomerEntity;
 import com.torishop.customer.domain.CustomerRepository;
+import com.torishop.exception.product.OutOfStockException;
 import com.torishop.order.domain.OrderEntity;
 import com.torishop.order.domain.OrderRepository;
 import com.torishop.order.dto.CreateOrderRequest;
@@ -34,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse save(Integer customerId, CreateOrderRequest request) {
+    public OrderResponse save(Integer customerId, CreateOrderRequest request) throws OutOfStockException {
         // 고객 ID 확인
         CustomerEntity customerEntity = null;
         if(customerId != 0){
@@ -62,12 +63,17 @@ public class OrderServiceImpl implements OrderService {
             ProductEntity product = productRepository.findById(productId).orElseThrow(
                     () -> new NoSuchElementException("Product doesn't exist " + productId)
             );
+
+            if (product.getStock() < orderItem.getQuantity()) {
+                throw new OutOfStockException("Product is out of stock: " + product.getName());
+            }
+
             empId.setProductId(product);
             OrderItemEntity orderItemEntity = orderItem.toEntity(empId);
             orderItemRepository.save(orderItemEntity);
 
             // product 재고 - 1
-            product.setStock(product.getStock() - 1);
+            product.setStock(product.getStock() - orderItem.getQuantity());
             productRepository.save(product);
         });
 

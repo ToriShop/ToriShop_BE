@@ -1,5 +1,7 @@
 package com.torishop.order.controller;
 
+import com.torishop.exception.product.OutOfStockException;
+import com.torishop.exception.dto.ErrorResponse;
 import com.torishop.order.dto.CreateOrderRequest;
 import com.torishop.order.dto.Order;
 import com.torishop.order.dto.OrderResponse;
@@ -51,12 +53,20 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<?> createOne(HttpServletRequest httpRequest, @RequestBody CreateOrderRequest request) {
         int id = 0;
+        OrderResponse orderResponse;
         if(httpRequest.getAttribute("acId") != null){
             id = (int) httpRequest.getAttribute("acId");
         }
-        OrderResponse orderResponse = orderService.save(id, request);
+        try {
+            orderResponse = orderService.save(id, request);
+        } catch (OutOfStockException exception) {
+            System.out.println(exception.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(exception.getMessage()));
+        }
 
         return ResponseEntity.ok(orderResponse);
     }
